@@ -1,4 +1,5 @@
 name: MobHealth
 version: '2.0.0'
 main: net.kalbskinder.mobHealth.MobHealth
+author: Kalbskinder
 api-version: '1.21'
