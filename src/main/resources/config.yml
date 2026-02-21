@@ -1,0 +1,18 @@
+# Change the colors and behavior of the different bars.
+
+# The name will formatted like this: {prefix}{nameColor}{mobName} {mobHealthColor}{mobHealth}{suffix}
+# disable-mob-name: # If true, the mob will not display its name, only the health.
+
+general:
+  name-always-shown: true # If true, the name of the mob will always be shown
+
+bars:
+  skyblock:
+    prefix: ""
+    suffix: "&c❤"
+    disable-mob-name: false
+    color:
+      name: "&c"
+      high: "&a"
+      mid: "&e"
+      low: "&c"
