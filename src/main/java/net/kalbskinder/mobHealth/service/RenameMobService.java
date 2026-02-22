@@ -29,8 +29,10 @@ public class RenameMobService {
         if (entity instanceof LivingEntity livingEntity) {
             switch (activeDisplaySetting) {
                 case DisplaySetting.SKYBLOCK -> renameMobSkyblock(livingEntity);
-                case DisplaySetting.HEARTS -> renameMobHearts(livingEntity);
+                case DisplaySetting.HEARTS_SPRITE -> renameMobHeartsSprite(livingEntity);
+                case DisplaySetting.HEARTS_SYMBOLS -> renameMobHeartsSymbol(livingEntity);
                 case DisplaySetting.SQUARES -> renameMobSquares(livingEntity);
+                case DisplaySetting.BARS -> renameMobHealthBar(livingEntity);
             }
         }
     }
@@ -56,11 +58,19 @@ public class RenameMobService {
         }
     }
 
-    private void renameMobHearts(Entity entity) {
+    private void renameMobHeartsSprite(Entity entity) {
         // Implement the logic to rename the mob according to the Hearts display setting
+    }
+
+    public void renameMobHeartsSymbol(Entity entity) {
+        // Implement the logic to rename the mob according to the Hearts Symbol display setting
     }
 
     private void renameMobSquares(Entity entity) {
         // Implement the logic to rename the mob according to the Squares display setting
+    }
+
+    private void renameMobHealthBar(Entity entity) {
+        // Implement the logic to rename the mob according to the Health Bar display setting
     }
 }
