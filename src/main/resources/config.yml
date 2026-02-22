@@ -6,6 +6,8 @@
 general:
   name-always-shown: true # If true, the name of the mob will always be shown
 
+selected: SKYBLOCK
+
 bars:
   skyblock:
     prefix: ""
