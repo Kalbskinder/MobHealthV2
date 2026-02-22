@@ -1,12 +1,12 @@
 # Change the colors and behavior of the different bars.
 
-# The name will formatted like this: {prefix}{nameColor}{mobName} {mobHealthColor}{mobHealth}{suffix}
+# The name will formatted like this: {prefix}{colored_mobName}{healthBar}{suffix}
 # disable-mob-name: # If true, the mob will not display its name, only the health.
 
 general:
   name-always-shown: true # If true, the name of the mob will always be shown
 
-selected: SKYBLOCK
+selected: SKYBLOCK # The selected bar that will be used for all mobs. Must be uppercase
 
 bars:
   skyblock:
@@ -18,3 +18,39 @@ bars:
       high: "&a"
       mid: "&e"
       low: "&c"
+
+  squares:
+    prefix: ""
+    suffix: ""
+    symbol: "■"
+    disable-mob-name: true
+    color:
+      name: "&c"
+      high: "&a"
+      mid: "&e"
+      low: "&c"
+
+  hearts_symbols:
+    prefix: ""
+    suffix: ""
+    symbol: "❤"
+    disable-mob-name: false
+    color:
+      name: "&c"
+      high: "&c"
+      mid: "&c"
+      low: "&c"
+
+  hearts_sprites:
+    prefix: ""
+    suffix: ""
+    disable-mob-name: false
+    sprites:
+      full: "minecraft:heart_full"
+      half: "minecraft:heart_half"
+      empty: "minecraft:heart_empty"
+
+  bars:
+    prefix: ""
+    suffix: ""
+    disable-mob-name: false

@@ -2,6 +2,8 @@ package net.kalbskinder.mobHealth.enums;
 
 public enum DisplaySetting {
     SKYBLOCK,
-    HEARTS,
-    SQUARES
+    HEARTS_SYMBOLS,
+    HEARTS_SPRITE,
+    SQUARES,
+    BARS
 }
