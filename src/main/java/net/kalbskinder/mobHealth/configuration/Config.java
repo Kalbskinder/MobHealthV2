@@ -1,14 +1,19 @@
 package net.kalbskinder.mobHealth.configuration;
 
+import net.kalbskinder.mobHealth.enums.DisplaySetting;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
 public class Config {
     private static FileConfiguration config;
+    private static JavaPlugin plugin;
 
-    public Config(FileConfiguration config) {
-        Config.config = config;
+    public Config(JavaPlugin plugin) {
+        Config.plugin = plugin;
+        plugin.saveDefaultConfig();
+        Config.config = plugin.getConfig();
     }
 
     protected static Object getConfigValue(String key) {
@@ -27,22 +32,25 @@ public class Config {
         return config.getStringList(key);
     }
 
+    public static void updateSelectedProfile(DisplaySetting newSetting) {
+        config.set("selected", newSetting.name());
+        plugin.saveConfig();
+    }
+
     public static class General {
-        public static final boolean ALWAYS_SHOW_NAME = getConfigBoolean("general.name-always-shown");
+        public static boolean ALWAYS_SHOW_NAME() { return getConfigBoolean("general.name-always-shown"); }
     }
 
     public static class HealthBars {
         public static class Skyblock {
             private static final String PATH = "bars.skyblock";
-            public static final String PREFIX = getConfigString(PATH + ".prefix");
-            public static final String SUFFIX = getConfigString(PATH + ".suffix");
-            public static final String COLOR_NAME = getConfigString(PATH + ".color.name");
-            public static final String COLOR_HIGH = getConfigString(PATH + ".color.high");
-            public static final String COLOR_MID = getConfigString(PATH + ".color.mid");
-            public static final String COLOR_LOW = getConfigString(PATH + ".color.low");
-            public static final boolean DISABLE_MOB_NAME = getConfigBoolean(PATH + ".disable-mob-name");
+            public static String PREFIX()           { return getConfigString(PATH + ".prefix"); }
+            public static String SUFFIX()           { return getConfigString(PATH + ".suffix"); }
+            public static String COLOR_NAME()       { return getConfigString(PATH + ".color.name"); }
+            public static String COLOR_HIGH()       { return getConfigString(PATH + ".color.high"); }
+            public static String COLOR_MID()        { return getConfigString(PATH + ".color.mid"); }
+            public static String COLOR_LOW()        { return getConfigString(PATH + ".color.low"); }
+            public static boolean DISABLE_MOB_NAME() { return getConfigBoolean(PATH + ".disable-mob-name"); }
         }
     }
-
-
 }

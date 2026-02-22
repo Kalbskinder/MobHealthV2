@@ -23,7 +23,7 @@ public class RenameMobService {
         String mobName = entity.getName();
         log.info("Renaming mob: " + mobName);
 
-        entity.setCustomNameVisible(Config.General.ALWAYS_SHOW_NAME);
+        entity.setCustomNameVisible(Config.General.ALWAYS_SHOW_NAME());
 
         // Map to living entity to access health and max health
         if (entity instanceof LivingEntity livingEntity) {
@@ -41,15 +41,15 @@ public class RenameMobService {
         double roundedHealth = Math.round(health * 10.0) / 10.0;
         double maxHealth = Objects.requireNonNull(entity.getAttribute(Attribute.MAX_HEALTH)).getDefaultValue();
         String healthColor = healthColorUtil.getSkyblockHealthColor(health, maxHealth);
-        String prefix = Config.HealthBars.Skyblock.PREFIX;
-        String suffix = Config.HealthBars.Skyblock.SUFFIX;
+        String prefix = Config.HealthBars.Skyblock.PREFIX();
+        String suffix = Config.HealthBars.Skyblock.SUFFIX();
 
         String healthBarDisplay = String.format("%s%f&7/&a%f", healthColor, roundedHealth, maxHealth);
 
-        if (Config.HealthBars.Skyblock.DISABLE_MOB_NAME) {
+        if (Config.HealthBars.Skyblock.DISABLE_MOB_NAME()) {
             entity.setCustomName(textUtil.legacyToMiniMessage(healthBarDisplay));
         } else {
-            String newMobName = Config.HealthBars.Skyblock.COLOR_NAME + entity.getName();
+            String newMobName = Config.HealthBars.Skyblock.COLOR_NAME() + entity.getName();
 
             String mobDisplayName = String.format("%s%s %s%s", prefix, newMobName, healthBarDisplay, suffix);
             entity.setCustomName(textUtil.legacyToMiniMessage(mobDisplayName));
