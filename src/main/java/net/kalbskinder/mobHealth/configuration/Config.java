@@ -60,6 +60,7 @@ public class Config {
             public static String COLOR_MID()        { return getConfigString(PATH + ".color.mid"); }
             public static String COLOR_LOW()        { return getConfigString(PATH + ".color.low"); }
             public static boolean DISABLE_MOB_NAME() { return getConfigBoolean(PATH + ".disable-mob-name"); }
+            public static boolean DISPLAY_SKYBLOCK_HEALTH() { return getConfigBoolean(PATH + ".display-skyblock-health"); }
         }
     }
 }
