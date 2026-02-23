@@ -47,7 +47,10 @@ public class Config {
     }
 
     public static class General {
-        public static boolean ALWAYS_SHOW_NAME() { return getConfigBoolean("general.name-always-shown"); }
+        private static final String PATH = "general";
+        public static boolean ALWAYS_SHOW_NAME() { return getConfigBoolean(PATH + ".name-always-shown"); }
+        public static boolean DISPLAY_SKYBLOCK_LEVEL() { return getConfigBoolean(PATH + ".display-skyblock-level"); }
+
     }
 
     public static class HealthBars {
@@ -61,7 +64,6 @@ public class Config {
             public static String COLOR_LOW()        { return getConfigString(PATH + ".color.low"); }
             public static boolean DISABLE_MOB_NAME() { return getConfigBoolean(PATH + ".disable-mob-name"); }
             public static boolean DISPLAY_SKYBLOCK_HEALTH() { return getConfigBoolean(PATH + ".display-skyblock-health"); }
-            public static boolean DISPLAY_SKYBLOCK_LEVEL() { return getConfigBoolean(PATH + ".display-skyblock-level"); }
         }
     }
 }

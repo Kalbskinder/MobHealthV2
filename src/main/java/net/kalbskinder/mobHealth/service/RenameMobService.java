@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.kalbskinder.mobHealth.MobHealth;
 import net.kalbskinder.mobHealth.configuration.Config;
 import net.kalbskinder.mobHealth.enums.DisplaySetting;
+import net.kalbskinder.mobHealth.model.EntityProperties;
 import net.kalbskinder.mobHealth.util.HealthColorUtil;
 import net.kalbskinder.mobHealth.util.TextUtil;
 import org.bukkit.NamespacedKey;
@@ -34,12 +35,11 @@ public class RenameMobService {
         return value == Math.floor(value) ? String.valueOf((long) value) : String.format("%.1f", value);
     }
 
-    public void renameMob(Entity entity, DisplaySetting activeDisplaySetting) {
+    public void renameMob(Entity anyEntity, DisplaySetting activeDisplaySetting) {
+        if (!(anyEntity instanceof LivingEntity entity)) return;
+
         String mobName;
-        entity.setCustomNameVisible(Config.General.ALWAYS_SHOW_NAME());
-
         NamespacedKey key = new NamespacedKey(MobHealth.getInstance(), "custom_mob_name");
-
         if (entity.getPersistentDataContainer().get(key, PersistentDataType.STRING) == null) {
             String typeName = entity.getType().name().toLowerCase().replace('_', ' ');
             mobName = Character.toUpperCase(typeName.charAt(0)) + typeName.substring(1);
@@ -47,45 +47,48 @@ public class RenameMobService {
             mobName = entity.getPersistentDataContainer().get(key, PersistentDataType.STRING);
         }
 
+        double health = entity.getHealth();
+        double maxHealth = getDefaultMaxHealth(entity);
+        String levelPrefix = String.format("&8[&7Lv%d&8]", (int) Math.ceil(maxHealth * 5 / 20));
+        boolean isLevelPrefix = Config.General.DISPLAY_SKYBLOCK_LEVEL();
+
+        EntityProperties entityProperties = new EntityProperties(mobName, health, maxHealth, levelPrefix, isLevelPrefix);
+
+        entity.setCustomNameVisible(Config.General.ALWAYS_SHOW_NAME());
         entity.setCustomName(null); // Clear existing name to prevent duplication
 
         // Map to living entity to access health and max health
-        if (entity instanceof LivingEntity livingEntity) {
-            switch (activeDisplaySetting) {
-                case DisplaySetting.SKYBLOCK -> renameMobSkyblock(livingEntity, mobName);
-                case DisplaySetting.HEARTS_SPRITE -> renameMobHeartsSprite(livingEntity, mobName);
-                case DisplaySetting.HEARTS_SYMBOLS -> renameMobHeartsSymbol(livingEntity, mobName);
-                case DisplaySetting.SQUARES -> renameMobSquares(livingEntity, mobName);
-                case DisplaySetting.BARS -> renameMobHealthBar(livingEntity, mobName);
-            }
+        switch (activeDisplaySetting) {
+            case DisplaySetting.SKYBLOCK -> renameMobSkyblock(entity, entityProperties);
+            case DisplaySetting.HEARTS_SPRITE -> renameMobHeartsSprite(entity, entityProperties);
+            case DisplaySetting.HEARTS_SYMBOLS -> renameMobHeartsSymbol(entity, entityProperties);
+            case DisplaySetting.SQUARES -> renameMobSquares(entity, entityProperties);
+            case DisplaySetting.BARS -> renameMobHealthBar(entity, entityProperties);
         }
     }
 
-    private void renameMobSkyblock(LivingEntity entity, String mobName) {
-        double health = entity.getHealth();
-        double maxHealth = getDefaultMaxHealth(entity);
+    private void renameMobSkyblock(LivingEntity entity, EntityProperties props) {
 
-        String healthColor = healthColorUtil.getSkyblockHealthColor(health, maxHealth);
+        String healthColor = healthColorUtil.getSkyblockHealthColor(props.health(), props.maxHealth());
         String prefix = Config.HealthBars.Skyblock.PREFIX();
         String suffix = Config.HealthBars.Skyblock.SUFFIX();
 
-        if (Config.HealthBars.Skyblock.DISPLAY_SKYBLOCK_LEVEL()) {
-            int level = (int) Math.ceil(maxHealth / 5);
-            prefix = String.format("&8[&7Lv%d&8] %s", level, prefix);
+        if (props.levelPrefixEnabled()) {
+            prefix = "%s %s".formatted(props.levelPrefix(), prefix);
         }
 
         String healthBarDisplay;
         if (Config.HealthBars.Skyblock.DISPLAY_SKYBLOCK_HEALTH()) {
             // Skyblock mode: whole numbers only, multiplied by 5
-            long roundedHealth = Math.max(0, Math.round(health));
-            long roundedMaxHealth = Math.round(maxHealth);
+            long roundedHealth = Math.max(0, Math.round(props.health()));
+            long roundedMaxHealth = Math.round(props.maxHealth());
             long skyblockHealth = roundedHealth * 5;
             long skyblockMaxHealth = roundedMaxHealth * 5;
             healthBarDisplay = String.format("%s%d&7/&a%d", healthColor, skyblockHealth, skyblockMaxHealth);
         } else {
             // Normal mode: round to nearest 0.5
-            double roundedHealth = Math.max(0, roundToHalf(health));
-            double roundedMaxHealth = roundToHalf(maxHealth);
+            double roundedHealth = Math.max(0, roundToHalf(props.health()));
+            double roundedMaxHealth = roundToHalf(props.maxHealth());
             healthBarDisplay = String.format("%s%s&7/&a%s", healthColor, formatHalf(roundedHealth), formatHalf(roundedMaxHealth));
         }
 
@@ -93,26 +96,26 @@ public class RenameMobService {
             String mobDisplayName = String.format("%s%s%s", prefix, healthBarDisplay, suffix);
             entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
         } else {
-            String newMobName = Config.HealthBars.Skyblock.COLOR_NAME() + mobName;
+            String newMobName = Config.HealthBars.Skyblock.COLOR_NAME() + props.mobName();
 
             String mobDisplayName = String.format("%s%s %s%s", prefix, newMobName, healthBarDisplay, suffix);
             entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
         }
     }
 
-    private void renameMobHeartsSprite(Entity entity, String mobName) {
+    private void renameMobHeartsSprite(Entity entity, EntityProperties props) {
         // Implement the logic to rename the mob according to the Hearts display setting
     }
 
-    public void renameMobHeartsSymbol(Entity entity, String mobName) {
+    public void renameMobHeartsSymbol(Entity entity, EntityProperties props) {
         // Implement the logic to rename the mob according to the Hearts Symbol display setting
     }
 
-    private void renameMobSquares(Entity entity, String mobName) {
+    private void renameMobSquares(Entity entity, EntityProperties props) {
         // Implement the logic to rename the mob according to the Squares display setting
     }
 
-    private void renameMobHealthBar(Entity entity, String mobName) {
+    private void renameMobHealthBar(Entity entity, EntityProperties props) {
         // Implement the logic to rename the mob according to the Health Bar display setting
     }
 }

@@ -5,6 +5,7 @@
 
 general:
   name-always-shown: true # If true, the name of the mob will always be shown, even if the player is not looking at the entity.
+  display-skyblock-level: false # Display a prefix of a mob's level. [Lv5] Zombie
 
 selected: SKYBLOCK # The selected bar that will be used for all mobs. Must be uppercase
 
@@ -14,7 +15,6 @@ bars:
     suffix: "&c❤"
     disable-mob-name: false
     display-skyblock-health: true # If true, health will be multiplied by 5. So a mob with 20 HP would display 100/100 instead of 20/20.
-    display-skyblock-level: false # Display a prefix of a mob's level. [Lv5] Zombie
     color:
       name: "&c"
       high: "&a"
