@@ -37,6 +37,15 @@ public class Config {
         plugin.saveConfig();
     }
 
+    public static DisplaySetting SELECTED_PROFILE() {
+        String selected = config.getString("selected", DisplaySetting.SKYBLOCK.name());
+        try {
+            return DisplaySetting.valueOf(selected.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            return DisplaySetting.SKYBLOCK; // Default to SKYBLOCK if invalid
+        }
+    }
+
     public static class General {
         public static boolean ALWAYS_SHOW_NAME() { return getConfigBoolean("general.name-always-shown"); }
     }

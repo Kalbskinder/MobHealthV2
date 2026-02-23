@@ -18,4 +18,12 @@ public class TextUtil {
         Component component = LEGACY.deserialize(input);
         return miniMessage.serialize(component);
     }
+
+    public String parseLegacy(String input) {
+        return input.replace("&", "§");
+    }
+
+    public Component parse(String input) {
+        return miniMessage.deserialize(input);
+    }
 }
