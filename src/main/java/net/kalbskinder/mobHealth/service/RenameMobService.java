@@ -65,7 +65,8 @@ public class RenameMobService {
         String healthBarDisplay = String.format("%s%.1f&7/&a%.1f", healthColor, roundedHealth, roundedMaxHealth);
 
         if (Config.HealthBars.Skyblock.DISABLE_MOB_NAME()) {
-            entity.setCustomName(textUtil.parseLegacy(healthBarDisplay));
+            String mobDisplayName = String.format("%s%s%s", prefix, healthBarDisplay, suffix);
+            entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
         } else {
             String newMobName = Config.HealthBars.Skyblock.COLOR_NAME() + mobName;
 
