@@ -69,6 +69,11 @@ public class RenameMobService {
         String prefix = Config.HealthBars.Skyblock.PREFIX();
         String suffix = Config.HealthBars.Skyblock.SUFFIX();
 
+        if (Config.HealthBars.Skyblock.DISPLAY_SKYBLOCK_LEVEL()) {
+            int level = (int) Math.ceil(maxHealth / 20);
+            prefix = String.format("&8[&7Lv%d&8] %s", level, prefix);
+        }
+
         String healthBarDisplay;
         if (Config.HealthBars.Skyblock.DISPLAY_SKYBLOCK_HEALTH()) {
             // Skyblock mode: whole numbers only, multiplied by 5
