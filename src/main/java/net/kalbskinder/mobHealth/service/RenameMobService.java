@@ -70,7 +70,7 @@ public class RenameMobService {
         String suffix = Config.HealthBars.Skyblock.SUFFIX();
 
         if (Config.HealthBars.Skyblock.DISPLAY_SKYBLOCK_LEVEL()) {
-            int level = (int) Math.ceil(maxHealth / 20);
+            int level = (int) Math.ceil(maxHealth / 5);
             prefix = String.format("&8[&7Lv%d&8] %s", level, prefix);
         }
 
