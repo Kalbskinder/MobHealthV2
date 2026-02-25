@@ -9,9 +9,9 @@ import net.kalbskinder.mobHealth.model.EntityProperties;
 import net.kalbskinder.mobHealth.util.HealthColorUtil;
 import net.kalbskinder.mobHealth.util.TextUtil;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataType;
 
 @Slf4j
@@ -49,7 +49,7 @@ public class RenameMobService {
 
         double health = entity.getHealth();
         double maxHealth = getDefaultMaxHealth(entity);
-        String levelPrefix = String.format("&8[&7Lv%d&8]", (int) Math.ceil(maxHealth * 5 / 20));
+        String levelPrefix = String.format("&8[&7Lv%d&8]&r", (int) Math.ceil(maxHealth * 5 / 20));
         boolean isLevelPrefix = Config.General.DISPLAY_SKYBLOCK_LEVEL();
         boolean isDisableMobName = Config.General.DISABLE_MOB_NAME();
         String mobNameColor = Config.General.NAME_COLOR();
@@ -113,7 +113,65 @@ public class RenameMobService {
     }
 
     private void renameMobSprite(Entity entity, EntityProperties props) {
-        // Implement the logic to rename the mob according to the Hearts display setting
+        int totalHalfHeartsHealth = (int) Math.round(props.health());
+        int fullSprites = totalHalfHeartsHealth / 2;
+        boolean isHalfHealth = totalHalfHeartsHealth % 2 != 0;
+
+        String fullHeartSprite = Config.HealthBars.Sprites.SPRITES_FULL();
+        String halfHeartSprite = Config.HealthBars.Sprites.SPRITES_HALF();
+
+        // Only filled and half hearts — no empty hearts, no background layer
+        String heartsDisplay = fullHeartSprite.repeat(fullSprites) + (isHalfHealth ? halfHeartSprite : "");
+
+        String prefix = Config.HealthBars.Sprites.PREFIX();
+        String suffix = Config.HealthBars.Sprites.SUFFIX();
+
+        if (props.levelPrefixEnabled()) {
+            prefix = "%s%s".formatted(props.levelPrefix(), prefix);
+        }
+
+        if (!props.disableMobName()) {
+            String newMobName = props.nameColor() + props.mobName();
+            prefix = "%s %s".formatted(prefix, newMobName);
+        }
+
+        String convertedPrefix = textUtil.legacyToMiniMessage(prefix);
+        String convertedSuffix = textUtil.legacyToMiniMessage(suffix);
+        String displayName = "%s\n%s%s".formatted(convertedPrefix, heartsDisplay, convertedSuffix);
+
+        World world = entity.getWorld();
+        NamespacedKey healthDisplayKey = new NamespacedKey(MobHealth.getInstance(), "mob_health_display");
+        NamespacedKey healthDisplayBgKey = new NamespacedKey(MobHealth.getInstance(), "mob_health_display_bg");
+        String entityId = entity.getUniqueId().toString();
+
+        // Remove any lingering background display from previous implementation
+        world.getEntities().stream()
+                .filter(e -> e instanceof TextDisplay)
+                .map(e -> (TextDisplay) e)
+                .filter(e -> e.getPersistentDataContainer().has(healthDisplayBgKey, PersistentDataType.STRING)
+                        && entityId.equals(e.getPersistentDataContainer().get(healthDisplayBgKey, PersistentDataType.STRING)))
+                .forEach(Entity::remove);
+
+        TextDisplay textDisplay = world.getEntities().stream()
+                .filter(e -> e instanceof TextDisplay)
+                .map(e -> (TextDisplay) e)
+                .filter(e -> e.getPersistentDataContainer().has(healthDisplayKey, PersistentDataType.STRING)
+                        && entityId.equals(e.getPersistentDataContainer().get(healthDisplayKey, PersistentDataType.STRING)))
+                .findFirst()
+                .orElse(null);
+
+        if (textDisplay == null) {
+            textDisplay = (TextDisplay) world.spawnEntity(entity.getLocation(), EntityType.TEXT_DISPLAY);
+            textDisplay.getPersistentDataContainer().set(healthDisplayKey, PersistentDataType.STRING, entityId);
+        }
+
+        textDisplay.text(textUtil.parse(displayName));
+        textDisplay.setBillboard(Display.Billboard.CENTER);
+        textDisplay.setLineWidth(200);
+
+        if (!entity.getPassengers().contains(textDisplay)) {
+            entity.addPassenger(textDisplay);
+        }
     }
 
     public void renameMobSymbol(Entity entity, EntityProperties props) {

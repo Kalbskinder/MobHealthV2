@@ -34,9 +34,9 @@ bars:
     prefix: ""
     suffix: ""
     sprites: # <sprite[:atlas]:sprite> | See also: https://www.gamergeeks.net/apps/minecraft/list-of-atlas-sprites
-      full: "minecraft:heart_full"
-      half: "minecraft:heart_half"
-      empty: "minecraft:heart_empty"
+      full: "<sprite:gui:hud/heart/full>"
+      half: "<sprite:gui:hud/heart/half>"
+      empty: "<sprite:gui:hud/heart/container>"
 
   bars:
     prefix: ""
