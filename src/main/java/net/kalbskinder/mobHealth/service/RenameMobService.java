@@ -51,8 +51,18 @@ public class RenameMobService {
         double maxHealth = getDefaultMaxHealth(entity);
         String levelPrefix = String.format("&8[&7Lv%d&8]", (int) Math.ceil(maxHealth * 5 / 20));
         boolean isLevelPrefix = Config.General.DISPLAY_SKYBLOCK_LEVEL();
+        boolean isDisableMobName = Config.General.DISABLE_MOB_NAME();
+        String mobNameColor = Config.General.NAME_COLOR();
 
-        EntityProperties entityProperties = new EntityProperties(mobName, health, maxHealth, levelPrefix, isLevelPrefix);
+        EntityProperties entityProperties = new EntityProperties(
+                mobName,
+                mobNameColor,
+                health,
+                maxHealth,
+                levelPrefix,
+                isLevelPrefix,
+                isDisableMobName
+        );
 
         entity.setCustomNameVisible(Config.General.ALWAYS_SHOW_NAME());
         entity.setCustomName(null); // Clear existing name to prevent duplication
@@ -91,11 +101,11 @@ public class RenameMobService {
             healthBarDisplay = String.format("%s%s&7/&a%s", healthColor, formatHalf(roundedHealth), formatHalf(roundedMaxHealth));
         }
 
-        if (Config.HealthBars.Skyblock.DISABLE_MOB_NAME()) {
+        if (props.disableMobName()) {
             String mobDisplayName = String.format("%s%s%s", prefix, healthBarDisplay, suffix);
             entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
         } else {
-            String newMobName = Config.HealthBars.Skyblock.COLOR_NAME() + props.mobName();
+            String newMobName = props.nameColor() + props.mobName();
 
             String mobDisplayName = String.format("%s%s %s%s", prefix, newMobName, healthBarDisplay, suffix);
             entity.setCustomName(textUtil.parseLegacy(mobDisplayName));

@@ -47,23 +47,41 @@ public class Config {
     }
 
     public static class General {
-        private static final String PATH = "general";
-        public static boolean ALWAYS_SHOW_NAME() { return getConfigBoolean(PATH + ".name-always-shown"); }
-        public static boolean DISPLAY_SKYBLOCK_LEVEL() { return getConfigBoolean(PATH + ".display-skyblock-level"); }
-
+        private static final String PATH = "general.";
+        public static boolean ALWAYS_SHOW_NAME() { return getConfigBoolean(PATH + "name-always-shown"); }
+        public static boolean DISPLAY_SKYBLOCK_LEVEL() { return getConfigBoolean(PATH + "display-skyblock-level"); }
+        public static boolean DISABLE_MOB_NAME() { return getConfigBoolean(PATH + "disable-mob-name"); }
+        public static String NAME_COLOR() { return getConfigString(PATH + "name-color"); }
     }
 
     public static class HealthBars {
         public static class Skyblock {
-            private static final String PATH = "bars.skyblock";
-            public static String PREFIX()           { return getConfigString(PATH + ".prefix"); }
-            public static String SUFFIX()           { return getConfigString(PATH + ".suffix"); }
-            public static String COLOR_NAME()       { return getConfigString(PATH + ".color.name"); }
-            public static String COLOR_HIGH()       { return getConfigString(PATH + ".color.high"); }
-            public static String COLOR_MID()        { return getConfigString(PATH + ".color.mid"); }
-            public static String COLOR_LOW()        { return getConfigString(PATH + ".color.low"); }
-            public static boolean DISABLE_MOB_NAME() { return getConfigBoolean(PATH + ".disable-mob-name"); }
-            public static boolean DISPLAY_SKYBLOCK_HEALTH() { return getConfigBoolean(PATH + ".display-skyblock-health"); }
+            private static final String PATH = "bars.skyblock.";
+            public static String PREFIX() { return getConfigString(PATH + "prefix"); }
+            public static String SUFFIX() { return getConfigString(PATH + "suffix"); }
+            public static String COLOR_HIGH() { return getConfigString(PATH + "color.high"); }
+            public static String COLOR_MID()  { return getConfigString(PATH + "color.mid"); }
+            public static String COLOR_LOW()  { return getConfigString(PATH + "color.low"); }
+            public static boolean DISPLAY_SKYBLOCK_HEALTH() { return getConfigBoolean(PATH + "display-skyblock-health"); }
+        }
+
+        public static class Sprites {
+            private static final String PATH = "bars.sprites.";
+            public static String PREFIX() { return getConfigString(PATH + "prefix"); }
+            public static String SUFFIX() { return getConfigString(PATH + "suffix"); }
+            public static String SPRITES_FULL() { return getConfigString(PATH + "sprites.full"); }
+            public static String SPRITES_HALF() { return getConfigString(PATH + "sprites.half"); }
+            public static String SPRITES_EMPTY() { return getConfigString(PATH + "sprites.empty"); }
+        }
+
+        public static class Symbols {
+            private static final String PATH = "bars.symbols.";
+            public static String PREFIX() { return getConfigString(PATH + "prefix"); }
+            public static String SUFFIX() { return getConfigString(PATH + "suffix"); }
+            public static String SYMBOL() { return getConfigString(PATH + "symbol"); }
+            public static String COLOR_HIGH() { return getConfigString(PATH + "color.high"); }
+            public static String COLOR_MID()  { return getConfigString(PATH + "color.mid"); }
+            public static String COLOR_LOW()  { return getConfigString(PATH + "color.low"); }
         }
     }
 }
