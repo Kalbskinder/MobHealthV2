@@ -60,9 +60,8 @@ public class RenameMobService {
         // Map to living entity to access health and max health
         switch (activeDisplaySetting) {
             case DisplaySetting.SKYBLOCK -> renameMobSkyblock(entity, entityProperties);
-            case DisplaySetting.HEARTS_SPRITE -> renameMobHeartsSprite(entity, entityProperties);
-            case DisplaySetting.HEARTS_SYMBOLS -> renameMobHeartsSymbol(entity, entityProperties);
-            case DisplaySetting.SQUARES -> renameMobSquares(entity, entityProperties);
+            case DisplaySetting.SPRITES -> renameMobSprite(entity, entityProperties);
+            case DisplaySetting.SYMBOLS -> renameMobSymbol(entity, entityProperties);
             case DisplaySetting.BARS -> renameMobHealthBar(entity, entityProperties);
         }
     }
@@ -103,16 +102,12 @@ public class RenameMobService {
         }
     }
 
-    private void renameMobHeartsSprite(Entity entity, EntityProperties props) {
+    private void renameMobSprite(Entity entity, EntityProperties props) {
         // Implement the logic to rename the mob according to the Hearts display setting
     }
 
-    public void renameMobHeartsSymbol(Entity entity, EntityProperties props) {
+    public void renameMobSymbol(Entity entity, EntityProperties props) {
         // Implement the logic to rename the mob according to the Hearts Symbol display setting
-    }
-
-    private void renameMobSquares(Entity entity, EntityProperties props) {
-        // Implement the logic to rename the mob according to the Squares display setting
     }
 
     private void renameMobHealthBar(Entity entity, EntityProperties props) {

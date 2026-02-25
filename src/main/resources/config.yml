@@ -21,33 +21,22 @@ bars:
       mid: "&e"
       low: "&c"
 
-  squares:
-    prefix: ""
-    suffix: ""
-    symbol: "■"
-    disable-mob-name: true
-    color:
-      name: "&c"
-      high: "&a"
-      mid: "&e"
-      low: "&c"
-
-  hearts_symbols:
+  symbols:
     prefix: ""
     suffix: ""
     symbol: "❤"
     disable-mob-name: false
     color:
       name: "&c"
-      high: "&c"
-      mid: "&c"
+      high: "&a"
+      mid: "&e"
       low: "&c"
 
-  hearts_sprites:
+  sprites:
     prefix: ""
     suffix: ""
     disable-mob-name: false
-    sprites:
+    sprites: # <sprite[:atlas]:sprite> | See also: https://www.gamergeeks.net/apps/minecraft/list-of-atlas-sprites
       full: "minecraft:heart_full"
       half: "minecraft:heart_half"
       empty: "minecraft:heart_empty"
