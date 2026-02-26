@@ -33,7 +33,8 @@ bars:
   sprites:
     prefix: ""
     suffix: ""
-    line-width: 80 # The width of the text display, overflow will be wrapped to a new line
+    line-width: 200 # The width of the text display, overflow will be wrapped to a new line
+    wrap-at: 10 # The amount of symbols that will be displayed before wrapping to a new line.
     sprites: # <sprite[:atlas]:sprite> | See also: https://www.gamergeeks.net/apps/minecraft/list-of-atlas-sprites
       full: "<sprite:gui:hud/heart/full>"
       half: "<sprite:gui:hud/heart/half>"

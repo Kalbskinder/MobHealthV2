@@ -120,8 +120,22 @@ public class RenameMobService {
         String fullHeartSprite = Config.HealthBars.Sprites.SPRITES_FULL();
         String halfHeartSprite = Config.HealthBars.Sprites.SPRITES_HALF();
 
-        // Only filled and half hearts — no empty hearts, no background layer
-        String heartsDisplay = fullHeartSprite.repeat(fullSprites) + (isHalfHealth ? halfHeartSprite : "");
+        java.util.List<String> spriteTokens = new java.util.ArrayList<>();
+        for (int i = 0; i < fullSprites; i++) spriteTokens.add(fullHeartSprite);
+        if (isHalfHealth) spriteTokens.add(halfHeartSprite);
+
+        int wrapAt = Config.HealthBars.Sprites.WRAP_AT();
+        String heartsDisplay;
+        if (wrapAt > 0 && spriteTokens.size() > wrapAt) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < spriteTokens.size(); i++) {
+                if (i > 0 && i % wrapAt == 0) sb.append("\n");
+                sb.append(spriteTokens.get(i));
+            }
+            heartsDisplay = sb.toString();
+        } else {
+            heartsDisplay = String.join("", spriteTokens);
+        }
 
         String prefix = Config.HealthBars.Sprites.PREFIX();
         String suffix = Config.HealthBars.Sprites.SUFFIX();

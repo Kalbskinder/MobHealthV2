@@ -76,6 +76,7 @@ public class Config {
             public static String SPRITES_FULL() { return getConfigString(PATH + "sprites.full"); }
             public static String SPRITES_HALF() { return getConfigString(PATH + "sprites.half"); }
             public static int LINE_WIDTH() { return getConfigInt(PATH + "line-width"); }
+            public static int WRAP_AT() { return getConfigInt(PATH + "wrap-at"); }
         }
 
         public static class Symbols {
