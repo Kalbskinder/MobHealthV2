@@ -167,7 +167,7 @@ public class RenameMobService {
 
         textDisplay.text(textUtil.parse(displayName));
         textDisplay.setBillboard(Display.Billboard.CENTER);
-        textDisplay.setLineWidth(200);
+        textDisplay.setLineWidth(Config.HealthBars.Sprites.LINE_WIDTH());
 
         if (!entity.getPassengers().contains(textDisplay)) {
             entity.addPassenger(textDisplay);

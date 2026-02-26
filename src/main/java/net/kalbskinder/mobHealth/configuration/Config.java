@@ -28,6 +28,10 @@ public class Config {
         return config.getString(key, "");
     }
 
+    protected static int getConfigInt(String key) {
+        return config.getInt(key, 0);
+    }
+
     protected static List<String> getConfigStringList(String key) {
         return config.getStringList(key);
     }
@@ -71,7 +75,7 @@ public class Config {
             public static String SUFFIX() { return getConfigString(PATH + "suffix"); }
             public static String SPRITES_FULL() { return getConfigString(PATH + "sprites.full"); }
             public static String SPRITES_HALF() { return getConfigString(PATH + "sprites.half"); }
-            public static String SPRITES_EMPTY() { return getConfigString(PATH + "sprites.empty"); }
+            public static int LINE_WIDTH() { return getConfigInt(PATH + "line-width"); }
         }
 
         public static class Symbols {
