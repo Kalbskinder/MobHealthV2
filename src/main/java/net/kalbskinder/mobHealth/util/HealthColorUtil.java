@@ -13,4 +13,15 @@ public class HealthColorUtil {
             return Config.HealthBars.Skyblock.COLOR_LOW();
         }
     }
+
+    public String getSymbolHealthColor(double health, double maxHealth) {
+        double percentage = (health / maxHealth) * 100.0;
+        if (percentage > 75.0) {
+            return Config.HealthBars.Symbols.COLOR_HIGH();
+        } else if (percentage >= 25.0) {
+            return Config.HealthBars.Symbols.COLOR_MID();
+        } else {
+            return Config.HealthBars.Symbols.COLOR_LOW();
+        }
+    }
 }

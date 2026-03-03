@@ -101,18 +101,12 @@ public class RenameMobService {
             healthBarDisplay = String.format("%s%s&7/&a%s", healthColor, formatHalf(roundedHealth), formatHalf(roundedMaxHealth));
         }
 
-        if (props.disableMobName()) {
-            String mobDisplayName = String.format("%s%s%s", prefix, healthBarDisplay, suffix);
-            entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
-        } else {
-            String newMobName = props.nameColor() + props.mobName();
-
-            String mobDisplayName = String.format("%s%s %s%s", prefix, newMobName, healthBarDisplay, suffix);
-            entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
-        }
+        formatMobDisplayName(entity, props, healthBarDisplay, prefix, suffix);
     }
 
     private void renameMobSprite(Entity entity, EntityProperties props) {
+        entity.setCustomNameVisible(false);
+
         int totalHalfHeartsHealth = (int) Math.round(props.health());
         int fullSprites = totalHalfHeartsHealth / 2;
         boolean isHalfHealth = totalHalfHeartsHealth % 2 != 0;
@@ -189,10 +183,40 @@ public class RenameMobService {
     }
 
     public void renameMobSymbol(Entity entity, EntityProperties props) {
-        // Implement the logic to rename the mob according to the Hearts Symbol display setting
+        String symbol = Config.HealthBars.Symbols.SYMBOL();
+        String healthColor = healthColorUtil.getSymbolHealthColor(props.health(), props.maxHealth());
+        String prefix = Config.HealthBars.Symbols.PREFIX();
+        String suffix = Config.HealthBars.Symbols.SUFFIX();
+
+        if (props.levelPrefixEnabled()) {
+            prefix = "%s %s".formatted(props.levelPrefix(), prefix);
+        }
+
+        double roundedHealth = Math.max(0, roundToHalf(props.health()));
+        String symbols = "";
+
+        for (int i = 0; i < (int) roundedHealth; i++) {
+            symbols = healthColor + symbol;
+        }
+
+        String healthBarDisplay = String.format("%s%s", healthColor, symbols);
+
+        formatMobDisplayName(entity, props, healthBarDisplay, prefix, suffix);
     }
 
     private void renameMobHealthBar(Entity entity, EntityProperties props) {
         // Implement the logic to rename the mob according to the Health Bar display setting
+    }
+
+    private void formatMobDisplayName(Entity entity, EntityProperties props, String healthBarDisplay, String prefix, String suffix) {
+        if (props.disableMobName()) {
+            String mobDisplayName = String.format("%s%s%s", prefix, healthBarDisplay, suffix);
+            entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
+        } else {
+            String newMobName = props.nameColor() + props.mobName();
+
+            String mobDisplayName = String.format("%s%s %s%s", prefix, newMobName, healthBarDisplay, suffix);
+            entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
+        }
     }
 }
