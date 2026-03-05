@@ -20,7 +20,7 @@ public final class MobHealth extends JavaPlugin {
 
     private final HealthColorUtil healthColorUtil = new HealthColorUtil();
     private final TextUtil textUtil = new TextUtil();
-    private final RenameMobService renameMobService = new RenameMobService(healthColorUtil, textUtil);
+    private final RenameMobService renameMobService = new RenameMobService(healthColorUtil, textUtil, this);
 
     @Getter private static MobHealth instance;
 

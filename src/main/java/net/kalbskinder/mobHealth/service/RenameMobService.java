@@ -1,6 +1,5 @@
 package net.kalbskinder.mobHealth.service;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.kalbskinder.mobHealth.MobHealth;
 import net.kalbskinder.mobHealth.configuration.Config;
@@ -15,11 +14,17 @@ import org.bukkit.entity.*;
 import org.bukkit.persistence.PersistentDataType;
 
 @Slf4j
-@RequiredArgsConstructor
 public class RenameMobService {
 
     private final HealthColorUtil healthColorUtil;
     private final TextUtil textUtil;
+    private final NamespacedKey healthDisplayKey;
+
+    public RenameMobService(HealthColorUtil healthColorUtil, TextUtil textUtil, MobHealth instance) {
+        this.healthColorUtil = healthColorUtil;
+        this.textUtil = textUtil;
+        this.healthDisplayKey = new NamespacedKey(instance, "mob_health_display");
+    }
 
     public double getDefaultMaxHealth(LivingEntity entity) {
         return entity.getAttribute(Attribute.MAX_HEALTH).getValue();
@@ -77,6 +82,8 @@ public class RenameMobService {
     }
 
     private void renameMobSkyblock(LivingEntity entity, EntityProperties props) {
+        resetMobName(entity);
+        entity.setCustomNameVisible(false);
 
         String healthColor = healthColorUtil.getSkyblockHealthColor(props.health(), props.maxHealth());
         String prefix = Config.HealthBars.Skyblock.PREFIX();
@@ -101,18 +108,12 @@ public class RenameMobService {
             healthBarDisplay = String.format("%s%s&7/&a%s", healthColor, formatHalf(roundedHealth), formatHalf(roundedMaxHealth));
         }
 
-        if (props.disableMobName()) {
-            String mobDisplayName = String.format("%s%s%s", prefix, healthBarDisplay, suffix);
-            entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
-        } else {
-            String newMobName = props.nameColor() + props.mobName();
-
-            String mobDisplayName = String.format("%s%s %s%s", prefix, newMobName, healthBarDisplay, suffix);
-            entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
-        }
+        formatMobDisplayName(entity, props, healthBarDisplay, prefix, suffix);
     }
 
     private void renameMobSprite(Entity entity, EntityProperties props) {
+        resetMobName(entity);
+
         int totalHalfHeartsHealth = (int) Math.round(props.health());
         int fullSprites = totalHalfHeartsHealth / 2;
         boolean isHalfHealth = totalHalfHeartsHealth % 2 != 0;
@@ -154,18 +155,9 @@ public class RenameMobService {
         String displayName = "%s\n%s%s".formatted(convertedPrefix, heartsDisplay, convertedSuffix);
 
         World world = entity.getWorld();
-        NamespacedKey healthDisplayKey = new NamespacedKey(MobHealth.getInstance(), "mob_health_display");
-        NamespacedKey healthDisplayBgKey = new NamespacedKey(MobHealth.getInstance(), "mob_health_display_bg");
         String entityId = entity.getUniqueId().toString();
 
         // Remove any lingering background display from previous implementation
-        world.getEntities().stream()
-                .filter(e -> e instanceof TextDisplay)
-                .map(e -> (TextDisplay) e)
-                .filter(e -> e.getPersistentDataContainer().has(healthDisplayBgKey, PersistentDataType.STRING)
-                        && entityId.equals(e.getPersistentDataContainer().get(healthDisplayBgKey, PersistentDataType.STRING)))
-                .forEach(Entity::remove);
-
         TextDisplay textDisplay = world.getEntities().stream()
                 .filter(e -> e instanceof TextDisplay)
                 .map(e -> (TextDisplay) e)
@@ -189,10 +181,51 @@ public class RenameMobService {
     }
 
     public void renameMobSymbol(Entity entity, EntityProperties props) {
-        // Implement the logic to rename the mob according to the Hearts Symbol display setting
+        resetMobName(entity);
+        String symbol = Config.HealthBars.Symbols.SYMBOL();
+        String healthColor = healthColorUtil.getSymbolHealthColor(props.health(), props.maxHealth());
+        String prefix = Config.HealthBars.Symbols.PREFIX();
+        String suffix = Config.HealthBars.Symbols.SUFFIX();
+
+        if (props.levelPrefixEnabled()) {
+            prefix = "%s %s".formatted(props.levelPrefix(), prefix);
+        }
+
+        // 1 symbol per 2 HP, max 20, minimum 1
+        int symbolsToShow = (int) Math.ceil(props.health() / 2.0);
+        symbolsToShow = Math.max(1, Math.min(symbolsToShow, 20));
+        String symbols = symbol.repeat(symbolsToShow);
+
+        String healthBarDisplay = String.format("%s%s", healthColor, symbols);
+
+        formatMobDisplayName(entity, props, healthBarDisplay, prefix, suffix);
     }
 
     private void renameMobHealthBar(Entity entity, EntityProperties props) {
         // Implement the logic to rename the mob according to the Health Bar display setting
+    }
+
+    private void formatMobDisplayName(Entity entity, EntityProperties props, String healthBarDisplay, String prefix, String suffix) {
+        if (props.disableMobName()) {
+            String mobDisplayName = String.format("%s%s%s", prefix, healthBarDisplay, suffix);
+            entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
+        } else {
+            String newMobName = props.nameColor() + props.mobName();
+
+            String mobDisplayName = String.format("%s%s %s%s", prefix, newMobName, healthBarDisplay, suffix);
+            entity.setCustomName(textUtil.parseLegacy(mobDisplayName));
+        }
+    }
+
+    private void resetMobName(Entity entity) {
+        String entityId = entity.getUniqueId().toString();
+        entity.getPassengers().stream()
+                .filter(e -> e instanceof TextDisplay)
+                .map(e -> (TextDisplay) e)
+                .filter(e -> e.getPersistentDataContainer().has(healthDisplayKey, PersistentDataType.STRING)
+                        && entityId.equals(e.getPersistentDataContainer().get(healthDisplayKey, PersistentDataType.STRING)))
+                .forEach(Entity::remove);
+
+        entity.setCustomName(null);
     }
 }

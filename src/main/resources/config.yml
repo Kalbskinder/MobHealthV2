@@ -4,7 +4,7 @@
 # disable-mob-name: # If true, the mob will not display its name, only the health.
 
 general:
-  name-always-shown: true # If true, the name of the mob will always be shown, even if the player is not looking at the entity.
+  name-always-shown: true # If true, the name of the mob will always be shown, even if the player is not looking at the entity. Will not work with SPRITES and BARS
   display-skyblock-level: false # Display a prefix of a mob's level. [Lv5] Zombie
   disable-mob-name: false # If true, the mob will not display its name, only the health.
   name-color: "&c" # The color of the mob's name. Must be a valid Minecraft color code.
@@ -24,7 +24,7 @@ bars:
   symbols:
     prefix: ""
     suffix: ""
-    symbol: "❤"
+    symbol: "■"
     color:
       high: "&a"
       mid: "&e"
