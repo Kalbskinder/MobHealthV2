@@ -83,7 +83,6 @@ public class RenameMobService {
 
     private void renameMobSkyblock(LivingEntity entity, EntityProperties props) {
         resetMobName(entity);
-        entity.setCustomNameVisible(false);
 
         String healthColor = healthColorUtil.getSkyblockHealthColor(props.health(), props.maxHealth());
         String prefix = Config.HealthBars.Skyblock.PREFIX();
@@ -95,7 +94,6 @@ public class RenameMobService {
 
         String healthBarDisplay;
         if (Config.HealthBars.Skyblock.DISPLAY_SKYBLOCK_HEALTH()) {
-            // Skyblock mode: whole numbers only, multiplied by 5
             long roundedHealth = Math.max(0, Math.round(props.health()));
             long roundedMaxHealth = Math.round(props.maxHealth());
             long skyblockHealth = roundedHealth * 5;
