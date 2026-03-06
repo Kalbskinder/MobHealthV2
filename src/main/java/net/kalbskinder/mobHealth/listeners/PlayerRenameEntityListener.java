@@ -38,6 +38,8 @@ public class PlayerRenameEntityListener implements Listener {
             return;
         }
 
+        event.setCancelled(true);
+
         String newName = PlainTextComponentSerializer.plainText().serialize(Objects.requireNonNull(meta.displayName()));
         NamespacedKey key = new NamespacedKey(MobHealth.getInstance(), "custom_mob_name");
         entity.getPersistentDataContainer().set(key, PersistentDataType.STRING, newName);
