@@ -88,5 +88,14 @@ public class Config {
             public static String COLOR_MID()  { return getConfigString(PATH + "color.mid"); }
             public static String COLOR_LOW()  { return getConfigString(PATH + "color.low"); }
         }
+
+        public static class Bars {
+            private static final String PATH = "bars.bars.";
+            public static String PREFIX() { return getConfigString(PATH + "prefix"); }
+            public static String SUFFIX() { return getConfigString(PATH + "suffix"); }
+            public static String SPRITES_BAR() { return getConfigString(PATH + "sprites.bar"); }
+            public static String SPRITES_BACKGROUND() { return getConfigString(PATH + "sprites.background"); }
+            public static boolean WRAP_AFTER_NAME() { return getConfigBoolean(PATH + "wrap-after-name"); }
+        }
     }
 }

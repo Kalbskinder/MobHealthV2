@@ -42,3 +42,7 @@ bars:
   bars:
     prefix: ""
     suffix: ""
+    wrap-after-name: true # If true, the bar will be displayed on a new line under the name. If false, the bar will be displayed on the same line as the name.
+    sprites: # <sprite[:atlas]:sprite> | See also: https://www.gamergeeks.net/apps/minecraft/list-of-atlas-sprites
+      bar: "<sprite:gui:boss_bar/green_progress>"
+      background: "<sprite:gui:boss_bar/red_progress>"
