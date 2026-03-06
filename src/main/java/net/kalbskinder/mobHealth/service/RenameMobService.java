@@ -46,8 +46,13 @@ public class RenameMobService {
         String mobName;
         NamespacedKey key = new NamespacedKey(MobHealth.getInstance(), "custom_mob_name");
         if (entity.getPersistentDataContainer().get(key, PersistentDataType.STRING) == null) {
-            String typeName = entity.getType().name().toLowerCase().replace('_', ' ');
-            mobName = Character.toUpperCase(typeName.charAt(0)) + typeName.substring(1);
+            String[] words = entity.getType().name().toLowerCase().split("_");
+            StringBuilder sb = new StringBuilder();
+            for (String word : words) {
+                if (!sb.isEmpty()) sb.append(' ');
+                sb.append(Character.toUpperCase(word.charAt(0))).append(word.substring(1));
+            }
+            mobName = sb.toString();
         } else {
             mobName = entity.getPersistentDataContainer().get(key, PersistentDataType.STRING);
         }
