@@ -42,6 +42,7 @@ public class RenameMobService {
 
     public void renameMob(Entity anyEntity, DisplaySetting activeDisplaySetting) {
         if (!(anyEntity instanceof LivingEntity entity)) return;
+        if (anyEntity instanceof Player) return; // ignore players
 
         String mobName;
         NamespacedKey key = new NamespacedKey(MobHealth.getInstance(), "custom_mob_name");
