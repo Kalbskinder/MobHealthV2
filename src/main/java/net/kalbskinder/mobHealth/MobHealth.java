@@ -5,8 +5,8 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.kalbskinder.mobHealth.commands.MobHealthCommand;
 import net.kalbskinder.mobHealth.configuration.Config;
+import net.kalbskinder.mobHealth.listeners.AnyEntityDespawnListener;
 import net.kalbskinder.mobHealth.listeners.EntityDamageListener;
-import net.kalbskinder.mobHealth.listeners.EntityDeathListener;
 import net.kalbskinder.mobHealth.listeners.EntitySpawnListener;
 import net.kalbskinder.mobHealth.listeners.PlayerRenameEntityListener;
 import net.kalbskinder.mobHealth.service.RenameMobService;
@@ -36,7 +36,7 @@ public final class MobHealth extends JavaPlugin {
         pm.registerEvents(new EntitySpawnListener(renameMobService), this);
         pm.registerEvents(new EntityDamageListener(renameMobService), this);
         pm.registerEvents(new PlayerRenameEntityListener(renameMobService), this);
-        pm.registerEvents(new EntityDeathListener(), this);
+        pm.registerEvents(new AnyEntityDespawnListener(), this);
     }
 
     private void startUpMessage() {
