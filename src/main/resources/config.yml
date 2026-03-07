@@ -1,7 +1,6 @@
 # Change the colors and behavior of the different bars.
 
-# The name will formatted like this: {prefix}{colored_mobName}{healthBar}{suffix}
-# disable-mob-name: # If true, the mob will not display its name, only the health.
+# The name will formatted like this: {prefix}{colored_mobName?}{healthBar}{suffix}
 
 general:
   name-always-shown: true # If true, the name of the mob will always be shown, even if the player is not looking at the entity. Will not work with SPRITES and BARS
