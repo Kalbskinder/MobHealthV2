@@ -1,5 +1,7 @@
 package net.kalbskinder.mobHealth;
 
+import dev.faststats.bukkit.BukkitMetrics;
+import dev.faststats.core.ErrorTracker;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -18,9 +20,16 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Slf4j
 public final class MobHealth extends JavaPlugin {
 
+    public static final ErrorTracker ERROR_TRACKER = ErrorTracker.contextAware();
+
     private final HealthColorUtil healthColorUtil = new HealthColorUtil();
     private final TextUtil textUtil = new TextUtil();
     private final RenameMobService renameMobService = new RenameMobService(healthColorUtil, textUtil, this);
+
+    private final BukkitMetrics metrics = BukkitMetrics.factory()
+            .token("")
+            .errorTracker(ERROR_TRACKER)
+            .create(this);
 
     @Getter private static MobHealth instance;
 
@@ -58,10 +67,12 @@ public final class MobHealth extends JavaPlugin {
 
         saveDefaultConfig();
         startUpMessage();
+
+        metrics.ready();
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        metrics.shutdown();
     }
 }

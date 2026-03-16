@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id("xyz.jpenilla.run-paper") version "2.3.1"
+    id("io.github.goooler.shadow") version "8.1.8"
 }
 
 group = 'net.kalbskinder'
@@ -12,6 +13,10 @@ repositories {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
     }
+    maven {
+        name = "faststats-repo"
+        url = "https://repo.faststats.dev/releases"
+    }
 }
 
 dependencies {
@@ -19,6 +24,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.18.42")
     annotationProcessor("org.projectlombok:lombok:1.18.42")
     compileOnly("org.slf4j:slf4j-api:2.0.17")
+    implementation("dev.faststats.metrics:bukkit:0.18.1")
 }
 
 tasks {
@@ -27,6 +33,10 @@ tasks {
         // This is the only required configuration besides applying the plugin.
         // Your plugin's jar (or shadowJar if present) will be used automatically.
         minecraftVersion("1.21")
+    }
+
+    shadowJar {
+        relocate("dev.faststats", "net.kalbskinder.mobHealth.libs.faststats")
     }
 }
 
