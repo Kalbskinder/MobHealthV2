@@ -37,6 +37,11 @@ tasks {
 
     shadowJar {
         relocate("dev.faststats", "net.kalbskinder.mobHealth.libs.faststats")
+        archiveClassifier.set("")
+    }
+
+    assemble {
+        dependsOn(shadowJar)
     }
 }
 
