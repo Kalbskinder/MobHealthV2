@@ -81,9 +81,9 @@ public class RenameMobService {
         // Map to living entity to access health and max health
         switch (activeDisplaySetting) {
             case DisplaySetting.SKYBLOCK -> renameMobSkyblock(entity, entityProperties);
-            case DisplaySetting.SPRITES -> renameMobSprite(entity, entityProperties);
+            //case DisplaySetting.SPRITES -> renameMobSprite(entity, entityProperties);
             case DisplaySetting.SYMBOLS -> renameMobSymbol(entity, entityProperties);
-            case DisplaySetting.BARS -> renameMobHealthBar(entity, entityProperties);
+            //case DisplaySetting.BARS -> renameMobHealthBar(entity, entityProperties);
         }
     }
 

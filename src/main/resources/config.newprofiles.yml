@@ -28,3 +28,20 @@ bars:
       high: "&a"
       mid: "&e"
       low: "&c"
+
+  sprites:
+    prefix: ""
+    suffix: ""
+    line-width: 200 # The width of the text display, overflow will be wrapped to a new line
+    wrap-at: 10 # The amount of symbols that will be displayed before wrapping to a new line.
+    sprites: # <sprite[:atlas]:sprite> | See also: https://www.gamergeeks.net/apps/minecraft/list-of-atlas-sprites
+      full: "<sprite:gui:hud/heart/full>"
+      half: "<sprite:gui:hud/heart/half>"
+
+  bars:
+    prefix: ""
+    suffix: ""
+    wrap-after-name: true # If true, the bar will be displayed on a new line under the name. If false, the bar will be displayed on the same line as the name.
+    sprites: # <sprite[:atlas]:sprite> | See also: https://www.gamergeeks.net/apps/minecraft/list-of-atlas-sprites
+      bar: "<sprite:gui:boss_bar/green_progress>"
+      background: "<sprite:gui:boss_bar/red_progress>"
