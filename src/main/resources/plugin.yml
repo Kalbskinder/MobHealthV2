@@ -2,7 +2,7 @@ name: MobHealth
 version: '2.0.1'
 main: net.kalbskinder.mobHealth.MobHealth
 author: Kalbskinder
-api-version: '26.1.2'
+api-version: '26.1'
 
 permissions:
   mobhealth.admin:
