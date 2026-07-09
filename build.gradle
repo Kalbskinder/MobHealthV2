@@ -4,7 +4,10 @@ plugins {
 }
 
 group = 'net.kalbskinder'
-version = '2.0.1'
+version = '2.0.2'
+
+def serverVersion = "26.2"
+def targetJavaVersion = 25
 
 repositories {
     mavenCentral()
@@ -15,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:26.1.2.build.+")
+    compileOnly("io.papermc.paper:paper-api:${serverVersion}.build.+")
     compileOnly("org.projectlombok:lombok:1.18.42")
     annotationProcessor("org.projectlombok:lombok:1.18.42")
     compileOnly("org.slf4j:slf4j-api:2.0.17")
@@ -26,11 +29,10 @@ tasks {
         // Configure the Minecraft version for our task.
         // This is the only required configuration besides applying the plugin.
         // Your plugin's jar (or shadowJar if present) will be used automatically.
-        minecraftVersion("26.1")
+        minecraftVersion(serverVersion)
     }
 }
 
-def targetJavaVersion = 25
 java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
